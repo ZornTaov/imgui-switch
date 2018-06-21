@@ -911,11 +911,8 @@ ImGuiIO::ImGuiIO()
     UserData = NULL;
 
     Fonts = NULL;
-#ifdef __SWITCH__
-    FontGlobalScale = 2.0f;
-#else
     FontGlobalScale = 1.0f;
-#endif
+
     FontDefault = NULL;
     FontAllowUserScaling = false;
     DisplayFramebufferScale = ImVec2(1.0f, 1.0f);

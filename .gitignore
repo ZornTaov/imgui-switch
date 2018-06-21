@@ -5,3 +5,4 @@
 *.nso
 *.pfs0
 /build
+.vscode

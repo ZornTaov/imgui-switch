@@ -31,9 +31,9 @@ int main(int argc, char* argv[])
 	int twidth;
 	int theight, bytes_per_pixels;
 
-	ImFont* titleFont = io.Fonts->AddFontFromFileTTF("romfs:/Inter-UI-Regular.ttf", 24);
-	ImFont* regularFont = io.Fonts->AddFontFromFileTTF("romfs:/Inter-UI-Regular.ttf", 16);
-	ImFont* footerFont = io.Fonts->AddFontFromFileTTF("romfs:/Inter-UI-Regular.ttf", 14);
+	ImFont* titleFont = io.Fonts->AddFontFromFileTTF("romfs:/Inter-UI-Regular.ttf", 48);
+	ImFont* regularFont = io.Fonts->AddFontFromFileTTF("romfs:/Inter-UI-Regular.ttf", 32);
+	ImFont* footerFont = io.Fonts->AddFontFromFileTTF("romfs:/Inter-UI-Regular.ttf", 28);
 	io.Fonts->Build();
 
 	imgui_sw::bind_imgui_painting();
