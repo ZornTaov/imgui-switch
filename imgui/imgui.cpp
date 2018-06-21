@@ -808,11 +808,19 @@ static size_t   GImAllocatorActiveAllocationsCount = 0;
 ImGuiStyle::ImGuiStyle()
 {
     Alpha                   = 1.0f;             // Global alpha applies to everything in ImGui
+#ifdef __SWITCH__
+    WindowPadding           = ImVec2(8,0);      // Padding within a window
+#else
     WindowPadding           = ImVec2(8,8);      // Padding within a window
+#endif
     WindowRounding          = 7.0f;             // Radius of window corners rounding. Set to 0.0f to have rectangular windows
     WindowBorderSize        = 1.0f;             // Thickness of border around windows. Generally set to 0.0f or 1.0f. Other values not well tested.
     WindowMinSize           = ImVec2(32,32);    // Minimum window size
+#ifdef __SWITCH__
+    WindowTitleAlign        = ImVec2(0.18f,0.8f);// Alignment for title bar text
+#else
     WindowTitleAlign        = ImVec2(0.0f,0.5f);// Alignment for title bar text
+#endif
     ChildRounding           = 0.0f;             // Radius of child window corners rounding. Set to 0.0f to have rectangular child windows
     ChildBorderSize         = 1.0f;             // Thickness of border around child windows. Generally set to 0.0f or 1.0f. Other values not well tested.
     PopupRounding           = 0.0f;             // Radius of popup window corners rounding. Set to 0.0f to have rectangular child windows
@@ -837,28 +845,43 @@ ImGuiStyle::ImGuiStyle()
     AntiAliasedFill         = true;             // Enable anti-aliasing on filled shapes (rounded rectangles, circles, etc.)
     CurveTessellationTol    = 1.25f;            // Tessellation tolerance when using PathBezierCurveTo() without a specific number of segments. Decrease for highly tessellated curves (higher quality, more polygons), increase to reduce quality.
 
-    // Default theme
+    // Default theme and scaling
+#ifdef __SWITCH__
+    ImGui::StyleColorsHorizon(this);
+    ImGuiStyle::ScaleAllSizes(10.0f);
+#else
     ImGui::StyleColorsDark(this);
+#endif
 }
 
 // To scale your entire UI (e.g. if you want your app to use High DPI or generally be DPI aware) you may use this helper function. Scaling the fonts is done separately and is up to you.
 // Important: This operation is lossy because we round all sizes to integer. If you need to change your scale multiples, call this over a freshly initialized ImGuiStyle structure rather than scaling multiple times.
 void ImGuiStyle::ScaleAllSizes(float scale_factor)
 {
+#ifndef __SWITCH__
+    WindowPadding = ImFloor(WindowPadding * scale_factor/2);
+#else
     WindowPadding = ImFloor(WindowPadding * scale_factor);
+#endif
     WindowRounding = ImFloor(WindowRounding * scale_factor);
     WindowMinSize = ImFloor(WindowMinSize * scale_factor);
     ChildRounding = ImFloor(ChildRounding * scale_factor);
     PopupRounding = ImFloor(PopupRounding * scale_factor);
+#ifdef __SWITCH__
+    FramePadding = ImFloor(FramePadding * scale_factor/1.5);
+#else
     FramePadding = ImFloor(FramePadding * scale_factor);
+#endif
     FrameRounding = ImFloor(FrameRounding * scale_factor);
     ItemSpacing = ImFloor(ItemSpacing * scale_factor);
     ItemInnerSpacing = ImFloor(ItemInnerSpacing * scale_factor);
     TouchExtraPadding = ImFloor(TouchExtraPadding * scale_factor);
     IndentSpacing = ImFloor(IndentSpacing * scale_factor);
     ColumnsMinSpacing = ImFloor(ColumnsMinSpacing * scale_factor);
+#ifndef __SWITCH__
     ScrollbarSize = ImFloor(ScrollbarSize * scale_factor);
     ScrollbarRounding = ImFloor(ScrollbarRounding * scale_factor);
+#endif
     GrabMinSize = ImFloor(GrabMinSize * scale_factor);
     GrabRounding = ImFloor(GrabRounding * scale_factor);
     DisplayWindowPadding = ImFloor(DisplayWindowPadding * scale_factor);
@@ -888,7 +911,11 @@ ImGuiIO::ImGuiIO()
     UserData = NULL;
 
     Fonts = NULL;
+#ifdef __SWITCH__
+    FontGlobalScale = 2.0f;
+#else
     FontGlobalScale = 1.0f;
+#endif
     FontDefault = NULL;
     FontAllowUserScaling = false;
     DisplayFramebufferScale = ImVec2(1.0f, 1.0f);

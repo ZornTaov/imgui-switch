@@ -2066,7 +2066,8 @@ bool ImGui::ShowStyleSelector(const char* label)
         {
         case 0: ImGui::StyleColorsClassic(); break;
         case 1: ImGui::StyleColorsDark(); break;
-        case 2: ImGui::StyleColorsLight(); break;
+        case 3: ImGui::StyleColorsLight(); break;
+        case 4: ImGui::StyleColorsHorizon(); break;
         }
         return true;
     }
