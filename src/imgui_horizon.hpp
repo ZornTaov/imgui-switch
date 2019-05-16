@@ -10,6 +10,7 @@
 
 extern int width, height;
 extern u32* framebuf;
+extern Framebuffer fb;
 
 extern ImVec2 cpos;
 

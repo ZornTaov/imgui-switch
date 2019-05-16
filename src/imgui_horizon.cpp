@@ -6,7 +6,9 @@
 
 int width, height;
 u32 *framebuf;
-
+Framebuffer fb;
+#define FB_WIDTH  1280
+#define FB_HEIGHT 720
 ImVec2 cpos;
 
 ImFont* titleFont;
@@ -23,8 +25,10 @@ std::vector<uint32_t> pixel_buffer;
 void HorizonInit()
 {
     romfsInit();
-    gfxInitDefault();
-	framebuf = (u32*) gfxGetFramebuffer((u32*)&width, (u32*)&height);
+    NWindow* win = nwindowGetDefault();
+    // Create a linear double-buffered framebuffer
+    framebufferCreate(&fb, win, FB_WIDTH, FB_HEIGHT, PIXEL_FORMAT_RGBA_8888, 2);
+    framebufferMakeLinear(&fb);
 
 	pixel_buffer = std::vector<uint32_t>(width * height, 0);
 
@@ -52,7 +56,7 @@ void HorizonExit()
     imgui_sw::unbind_imgui_painting();
 	ImGui::DestroyContext();
 
-	gfxExit();
+    framebufferClose(&fb);
 	romfsExit();
 }
 
